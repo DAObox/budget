@@ -53,6 +53,7 @@ library TimeShiftLib {
 
     error InvalidTimeShift();
 
+    // solhint-disable-next-line code-complexity
     function applyShift(uint40 time, EncodedTimeShift shift) internal pure returns (uint40) {
         (TimeUnit unit, int40 offset) = shift.decode();
 
