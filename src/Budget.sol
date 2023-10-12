@@ -150,7 +150,7 @@ contract Budget is PluginUUPSUpgradeable {
 
             // We don't allow setting inherited amounts on top-level allowances as
             // it could be prone to a client-side mistake to send 0 as the amount which will
-            // will create an allowance that allows completely wiping the dao (for the token)
+            // create an allowance that allows completely wiping the dao (for the token)
             if (amount == INHERITED_AMOUNT) {
                 revert InheritedAmountNotAllowed();
             }
