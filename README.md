@@ -1,200 +1,216 @@
-# Foundry Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Foundry][foundry-badge]][foundry] [![License: MIT][license-badge]][license]
+# Budget [![Github Actions][gha-badge]][gha] [![Foundry][foundry-badge]][foundry] [![License: AGPL-3-0][license-badge]][license]
 
-[gitpod]: https://gitpod.io/#https://github.com/DAObox/budgets
-[gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
-[gha]: https://github.com/DAObox/budgets/actions
-[gha-badge]: https://github.com/DAObox/budgets/actions/workflows/ci.yml/badge.svg
+[gha]: https://github.com/DAObox/budget/actions
+[gha-badge]: https://github.com/DAObox/budget/actions/workflows/ci.yml/badge.svg
 [foundry]: https://getfoundry.sh/
 [foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
-[license]: https://opensource.org/licenses/MIT
+[license]: https://opensource.org/license/agpl-v3/
 [license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
-A Foundry-based template for developing Solidity smart contracts, with sensible defaults.
+> Budget is an Aragon OSx Plugin that allows the execution of payments bypassing the need for regular voting
 
-## What's Inside
-
-- [Forge](https://github.com/foundry-rs/foundry/blob/master/forge): compile, test, fuzz, format, and deploy smart
-  contracts
-- [Forge Std](https://github.com/foundry-rs/forge-std): collection of helpful contracts and cheatcodes for testing
-- [PRBTest](https://github.com/PaulRBerg/prb-test): modern collection of testing assertions and logging utilities
-- [Prettier](https://github.com/prettier/prettier): code formatter for non-Solidity files
-- [Solhint Community](https://github.com/solhint-community/solhint-community): linter for Solidity code
+<br />
 
 ## Getting Started
 
-Click the [`Use this template`](https://github.com/PaulRBerg/foundry-template/generate) button at the top of the page to
-create a new repository with this repo as the initial state.
-
-Or, if you prefer to install the template manually:
-
 ```sh
-$ mkdir my-project
-$ cd my-project
-$ forge init --template PaulRBerg/foundry-template
+$ git clone git@github.com:DAObox/budget.git
+$ cd budget
 $ pnpm install # install Solhint, Prettier, and other Node.js deps
+$ pnpm test
 ```
 
 If this is your first time with Foundry, check out the
 [installation](https://github.com/foundry-rs/foundry#installation) instructions.
 
-## Features
+<br />
 
-This template builds upon the frameworks and libraries mentioned above, so for details about their specific features,
-please consult their respective documentation.
+## Overview
 
-For example, if you're interested in exploring Foundry in more detail, you should look at the
-[Foundry Book](https://book.getfoundry.sh/). In particular, you may be interested in reading the
-[Writing Tests](https://book.getfoundry.sh/forge/writing-tests.html) tutorial.
+Budget is an Aragon OSx Plugin that allows the execution of payments bypassing the need for regular voting. Authorized
+entities can directly perform payments using the DAO's funds if they are within the spending allowance of a specific
+budget.
 
-### Sensible Defaults
+Budget uses natural dates (e.g. an allowance can restart the first day of the month) instead of timestamps (e.g. an
+allowance restarts every `30 * 24 * 3600` seconds) for UX purposes as most business dates revolve around schelling
+points that are unequal amounts of seconds apart (months, quarters, years).
 
-This template comes with a set of sensible default configurations for you to use. These defaults can be found in the
-following files:
+Budget allows spenders of an allowance (which can only be granted by the DAO itself, more on this below) to create an
+arbitrary number of sub-allowances from which another set of spenders can spend (and recursively create other
+sub-allowances as well)
 
-```text
-├── .editorconfig
-├── .gitignore
-├── .prettierignore
-├── .prettierrc.yml
-├── .solhint.json
-├── foundry.toml
-└── remappings.txt
+It can be used with a role-based permissioning system which allows to authorize groups within the company to spend from
+a particular allowance (e.g. executives role or operations team role). This enables an easier onboarding/offboarding
+process (i.e. granting someone one role immediately allows them to spend from all the allowances that the role is the
+authorized spender).
+
+<br />
+
+## Lifecycle
+
+<br />
+
+### Creating allowances
+
+The allowance is the main data structure/primitive that Budget is built around. They are created with this function:
+
+```typescript
+function createAllowance(
+        uint256 parentAllowanceId,
+        address spender,
+        address token,
+        uint256 amount,
+        EncodedTimeShift recurrency,
+        string memory name
+) public returns (uint256 allowanceId);
 ```
 
-### VSCode Integration
+Allowances can have any number of sub-allowances, effectively forming a tree of allowances. Top-level allowances are
+allowances that aren’t a sub-allowance of any other allowance. Only the DAO itself can create top-level allowances; as
+they aren’t bound by the controls of a parent allowance, they could potentially spend all the DAO’s assets if the
+allowance parameters allowed so.
 
-This template is IDE agnostic, but for the best user experience, you may want to use it in VSCode alongside Nomic
-Foundation's [Solidity extension](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity).
+The parameters that an allowance has are:
 
-For guidance on how to integrate a Foundry project in VSCode, please refer to this
-[guide](https://book.getfoundry.sh/config/vscode).
+- Parent allowance ID: which allowance this allowance belongs to. This will be zero in case of a top-level allowance. It
+  can’t be modified after creation.
 
-### GitHub Actions
+- Spender address: address of the EoA or Contract authorized to trigger payments from the allowance.
 
-This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
-request made to the `main` branch.
+- Token: address of the token contract or flag for the native asset that this allowance will spend. It can’t be modified
+  after creation and can only be decided for top-level allowances as all sub-allowances below it must use the same
+  token.
 
-You can edit the CI script in [.github/workflows/ci.yml](./.github/workflows/ci.yml).
+- Amount: amount of token in its smallest unit (e.g. wei amount for ETH) that can be spent from this allowance per
+  period.
 
-## Writing Tests
+- Recurrency: cadence with which the spent amount in the allowance is reset to zero. It can’t be modified after
+  creation.
 
-To write a new test contract, you start by importing [PRBTest](https://github.com/PaulRBerg/prb-test) and inherit from
-it in your test contract. PRBTest comes with a pre-instantiated [cheatcodes](https://book.getfoundry.sh/cheatcodes/)
-environment accessible via the `vm` property. If you would like to view the logs in the terminal output you can add the
-`-vvv` flag and use [console.log](https://book.getfoundry.sh/faq?highlight=console.log#how-do-i-use-consolelog).
+- Name: human readable name for the allowance being created
 
-This template comes with an example test contract [Foo.t.sol](./test/Foo.t.sol)
+#### Recurrency
 
-## Usage
+The recurrency of an allowance is defined with a data structure we call `TimeShift` . A `TimeShift` is comprised of the
+following two fields:
 
-This is a list of the most frequently needed commands.
+1. **Time unit**: specifies when the amount spent in the allowance will be reset to zero, allowing to spend the full
+   amount of the allowance again. Options:
 
-### Build
+   - **Daily**: resets every day at midnight UTC.
+   - **Weekly**: resets every Monday at midnight UTC (Monday is considered the first day of the week, and can be
+     modified with an offset).
+   - **Monthly**: resets the first day of every month at midnight UTC.
+   - **Quarterly**: resets the first day of every quarter (Jan 1st, Apr 1st, Jul 1st, Oct 1st) at midnight UTC.
+   - **Semiyearly**: resets on Jan 1st and Jul 1st at midnight UTC.
+   - **Yearly**: resets on Jan 1st at midnight UTC.
+   - Non-time units:
+   - **Non-recurrent**: never resets, uses offset value as the date until which the allowance will become inactive.
+     Useful to create time-bounced one-time allowances.
+   - **Inherit**: flags that the allowance has the same recurrency as its parent (see more on [Parameter inheritance]())
 
-Build the contracts:
+2. **Offset**: delta in seconds to UTC to offset time calculations. This is useful for both handling timezones (e.g.
+   daily allowance which resets at midnight in UTC+2 would have an offset of `+2 * 60 * 60`) and exact moments in time
+   (e.g. an allowance that resets the last day of the month would have an offset of `-24 * 60 * 60`)
 
-```sh
-$ forge build
-```
+The recurrency argument of `Budget.createAllowance(...)` takes a `EncodedTimeShift` value which is a custom type over a
+`bytes6` value. The first byte is the encoded time unit and the next 5 are a `int40` for the offset. You can see more
+about the encoding/decoding [here]().
 
-### Clean
+#### Sub-allowances
 
-Delete the build artifacts and cache directories:
+In order to create a sub-allowance, an account must be allowed to make payments from that particular allowance (it’s
+address is the spender or has the concrete role). Sub-allowances are created to bucket spending within a larger
+allowance and grant spending permissions to another set of accounts. The creator of a sub-allowance has full freedom to
+set any parameters for it (except for the token address which must be the same as its parent’s), but it will always be
+bound by the limits of its parent. When spending from a sub-allowance, the amount of the payment is credited not only
+its own authorized amount, but from the authorized amount of its parent and all ancestors in the chain until getting to
+the top-level allowance.
 
-```sh
-$ forge clean
-```
+Some peculiarities of sub-allowances:
 
-### Compile
+- Their recurrency can be different from the parent’s in both directions. It is possible to have a monthly sub-allowance
+  under both a weekly or yearly parent allowance.
+- The amount of a sub-allowance can be greater than the parent, but since spending controls are applied recursively, a
+  sub-allowance will never be able to spend more than any of its ancestors allow
+- Since allowances can be paused or disabled temporarily, pausing an allowance will effectively disable spending from
+  its descendants. All ancestor allowances in the chain to its top-level allowances must be enabled for a sub-allowance
+  to be able to spend.
 
-Compile the contracts:
+#### Parameter inheritance
 
-```sh
-$ forge build
-```
+Keeping the allowance primitive simple came with a few short-comings (e.g. a single spender, not modifiable recurrency).
+These are tolerable because most goals can be achieved with sub-allowances (e.g. adding a spender can be done creating a
+sub-allowance for the same amount).
 
-### Coverage
+Because of how Budget tracks spending at the level of each individual allowance, the use of a deep tree of
+sub-allowances could become expensive gas wise. This is why we allow for inheriting certain parameters from a parent
+allowance, which stops the sub-allowance from tracking them itself and just relying on them being checked up the chain
+(multiple levels of recurrency are allowed).
 
-Get a test coverage report:
+- **Inheriting recurrency**: a sub-allowance can inherit the recurrency of its parent, reseting its spent amount
+  whenever its parent amount is reset. This can be used to create buckets of spending which are tracked using the same
+  time unit (e.g. a yearly general budget which has sub-budgets for different departments).
+- **Inheriting amount**: a sub-allowance which inherits the recurrency of its parent can also be set to inherit its
+  amount. This effectively means that the sub-allowance doesn’t keep track of how much it has been spent through it and
+  just uses its parent spent amount. This is useful to authorize additional accounts to spend from a particular
+  allowance while still keeping control over it.
 
-```sh
-$ forge coverage
-```
+<br />
 
-### Deploy
+### Executing payments
 
-Deploy to Anvil:
+The authorized spender for an allowance can use
+`Budget:executePayment(uint256 allowanceId, address to, uint256 amount, string description)` or
+`Budget:executeMultiPayment(uint256 allowanceId, address[] tos, uint256[] amounts, string description)` to trigger a
+payment from the DAO to the specified address of an amount if and only if it is within the spending limit.
 
-```sh
-$ forge script script/Deploy.s.sol --broadcast --fork-url http://localhost:8545
-```
+When performing a payment, the contract will check whether the allowance (and all its ancestors) need to have their
+spent amount reset according to their recurrency and will calculate when it will reset next.
 
-For this script to work, you need to have a `MNEMONIC` environment variable set to a valid
-[BIP39 mnemonic](https://iancoleman.io/bip39/).
+<br />
 
-For instructions on how to deploy to a testnet or mainnet, check out the
-[Solidity Scripting](https://book.getfoundry.sh/tutorials/solidity-scripting.html) tutorial.
+### Debiting payments
 
-### Format
+It is possible to use `Budget:debitAllowance(uint256 allowanceId, uint256 amount, bytes description)` to return a
+certain amount of tokens (e.g. some funds are returned from a payment) and remove that amount from the spent amount for
+the period.
 
-Format the contracts:
+Any account can debit a payment to a particular allowance if those tokens can be successfully deposited from the account
+triggering the debit to the DAO.
 
-```sh
-$ forge fmt
-```
+Debiting payments only has an effect towards the current period and the spent amount for the allowance can never go
+negative (meaning at no time it is possible to spend from an allowance more than its amount)
 
-### Gas Usage
+<br />
 
-Get a gas report:
+## Security considerations
 
-```sh
-$ forge test --gas-report
-```
+<br />
 
-### Lint
+### Unbounded allowance recursion
 
-Lint the contracts:
+As evident from the above, an infinite chain of sub-allowances can be created. When spending from an allowance at depth
+`N` , there’s an unbounded recursive function (`_checkAndUpdateAllowanceChain`) which checks and modifies storage for
+all levels in the allowance chain until it reaches its top-level allowance.
 
-```sh
-$ pnpm lint
-```
+For a Solidity program, this is certainly a fat red flag as things like this can lead to gas griefing attacks or locking
+the contract making the gas cost to operate something go over the limit. However, there are a few reasons why due to the
+constraints of this system, this is a non-issue:
 
-### Test
+- **Anti-griefing**: even though any spender of an allowance can create sub-allowances with custom parameters (and
+  therefore being able to create an ‘infinite’ chain below any allowance in which they are a spender), this doesn’t
+  impact the gas required to interact with its sibling or ancestor sub-allowances.
 
-Run the tests:
+- **Contract locking due to forcing gas limit**: similarly to the one above, even though it is possible to end up
+  creating a sub-allowance at such depth that it is impossible to execute or debit payments to it, the issue will be
+  localized to those specific allowances the bad actor is creating.
 
-```sh
-$ forge test
-```
+- **Infinite loops**: as the parent of a sub-allowance has to exist when it is created and it cannot be changed, it is
+  impossible to form a loop in which a sub-allowance can have itself in its ancestry.
 
-Generate test coverage and output result to the terminal:
-
-```sh
-$ pnpm test:coverage
-```
-
-Generate test coverage with lcov report (you'll have to open the `./coverage/index.html` file in your browser, to do so
-simply copy paste the path):
-
-```sh
-$ pnpm test:coverage:report
-```
-
-## Notes
-
-1. Foundry uses [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) to manage dependencies. For
-   detailed instructions on working with dependencies, please refer to the
-   [guide](https://book.getfoundry.sh/projects/dependencies.html) in the book
-2. You don't have to create a `.env` file, but filling in the environment variables may be useful when debugging and
-   testing against a fork.
-
-## Related Efforts
-
-- [abigger87/femplate](https://github.com/abigger87/femplate)
-- [cleanunicorn/ethereum-smartcontract-template](https://github.com/cleanunicorn/ethereum-smartcontract-template)
-- [foundry-rs/forge-template](https://github.com/foundry-rs/forge-template)
-- [FrankieIsLost/forge-template](https://github.com/FrankieIsLost/forge-template)
+<br />
 
 ## License
 
-This project is licensed under MIT.
+This project is licensed under AGPL-3.0-or-later
