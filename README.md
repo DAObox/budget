@@ -1,13 +1,29 @@
-# Budget [![Github Actions][gha-badge]][gha] [![Foundry][foundry-badge]][foundry] [![License: AGPL-3-0][license-badge]][license]
+<h1 align="center">DAOBox - Budget</h1>
+
+<p align="center">
+  <img src="./assets/banner.png" alt="daobox-banner" />
+  <br>
+  <i>DAOBox - Budget is an Aragon OSx Plugin that allows the execution of payments bypassing the need for regular voting.</i>
+  <br>
+</p>
+
+<p align="center">
+  <a href="https://github.com/DAObox/budget/actions"><img src="https://github.com/DAObox/budget/actions/workflows/ci.yml/badge.svg" alt="Github Actions"></a>
+  <a href="https://getfoundry.sh/"><img src="https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg" alt="Foundry"></a>
+  <a href="https://opensource.org/license/agpl-v3/"><img src="https://img.shields.io/badge/License-AGPL-blue.svg" alt="License: AGPL-3-0"></a>
+  <a href="https://use-aragon.daobox.app"><img src="https://img.shields.io/badge/Docs-DAOBox-blue.svg" alt="Docs"></a>
+  <a href="https://discord.gg/d5nCgVt4kE"><img alt="Discord" src="https://img.shields.io/discord/1019114018545352734"></a>
+
+</p>
+
+<hr>
 
 [gha]: https://github.com/DAObox/budget/actions
 [gha-badge]: https://github.com/DAObox/budget/actions/workflows/ci.yml/badge.svg
 [foundry]: https://getfoundry.sh/
 [foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
 [license]: https://opensource.org/license/agpl-v3/
-[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
-
-> Budget is an Aragon OSx Plugin that allows the execution of payments bypassing the need for regular voting
+[license-badge]: https://img.shields.io/badge/License-AGPL-blue.svg
 
 <br />
 
