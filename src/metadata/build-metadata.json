@@ -1,0 +1,20 @@
+{
+  "ui": {},
+  "change": "NA",
+  "pluginSetup": {
+    "prepareInstallation": {
+      "description": "No input is required for the update.",
+      "inputs": [],
+      "prepareUpdate": {
+        "1": {
+          "description": "No input is required for the update.",
+          "inputs": []
+        }
+      },
+      "prepareUninstallation": {
+        "description": "No input is required for the uninstallation.",
+        "inputs": []
+      }
+    }
+  }
+}
