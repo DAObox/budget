@@ -1,3 +1,6 @@
 [submodule "packages/contratcs/lib/openzeppelin-contracts-upgradeable"]
 	path = packages/contratcs/lib/openzeppelin-contracts-upgradeable
 	url = https://github.com/openzeppelin/openzeppelin-contracts-upgradeable
+[submodule "packages/contratcs/lib/ens-contracts"]
+	path = packages/contratcs/lib/ens-contracts
+	url = https://github.com/ensdomains/ens-contracts
