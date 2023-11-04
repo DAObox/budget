@@ -10,3 +10,6 @@
 [submodule "packages/contratcs/lib/osx"]
 	path = packages/contratcs/lib/osx
 	url = https://github.com/aragon/osx
+[submodule "packages/contratcs/lib/openzeppelin-contracts"]
+	path = packages/contratcs/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
