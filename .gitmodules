@@ -4,3 +4,6 @@
 [submodule "packages/contratcs/lib/ens-contracts"]
 	path = packages/contratcs/lib/ens-contracts
 	url = https://github.com/ensdomains/ens-contracts
+[submodule "packages/contratcs/lib/prb-test"]
+	path = packages/contratcs/lib/prb-test
+	url = https://github.com/paulrberg/prb-test
