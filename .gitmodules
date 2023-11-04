@@ -13,3 +13,6 @@
 [submodule "lib/osx"]
 	path = lib/osx
 	url = https://github.com/aragon/osx
+[submodule "lib/BokkyPooBahsDateTimeLibrary"]
+	path = lib/BokkyPooBahsDateTimeLibrary
+	url = https://github.com/bokkypoobah/BokkyPooBahsDateTimeLibrary
