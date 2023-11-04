@@ -13,3 +13,6 @@
 [submodule "packages/contratcs/lib/openzeppelin-contracts"]
 	path = packages/contratcs/lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "packages/contratcs/lib/BokkyPooBahsDateTimeLibrary"]
+	path = packages/contratcs/lib/BokkyPooBahsDateTimeLibrary
+	url = https://github.com/bokkypoobah/BokkyPooBahsDateTimeLibrary
