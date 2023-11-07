@@ -2,8 +2,9 @@ import { useAccount } from "wagmi";
 import { ConnectKitButton } from "connectkit";
 import { Account } from "./components/Account";
 
-import { Counter } from "./components/Counter";
+import { InstallPlugin } from "./components/InstallPlugin";
 import { NetworkSwitcher } from "./components/NetworkSwitcher";
+import { NewRootBudget } from "./components/CreateRootBudget";
 
 export function App() {
   const { isConnected } = useAccount();
@@ -16,7 +17,9 @@ export function App() {
         <>
           <Account />
           <hr />
-          <Counter />
+          <InstallPlugin />
+          <hr />
+          <NewRootBudget />
           <hr />
           <NetworkSwitcher />
         </>

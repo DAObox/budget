@@ -5,30 +5,7 @@ import { pluginSetupProcessorABI, tokenVotingABI, tokenVotingAddress } from "../
 import { DAO__factory, PluginSetupProcessor, PluginSetupProcessor__factory } from "@aragon/osx-ethers";
 import { zeroAddress, keccak256, encodeAbiParameters, stringToBytes } from "viem";
 import { Permissions, VoteValues } from "@aragon/sdk-client";
-
-export interface DAOAction {
-  to: `0x${string}`;
-  value: bigint;
-  data: `0x${string}`;
-}
-
-enum InstallState {
-  Idle,
-  Preparing,
-  WaitingForPreparation,
-  Installing,
-  Prepared,
-  Installed,
-}
-
-const statusMessages = {
-  [InstallState.Idle]: "Install Plugin",
-  [InstallState.Preparing]: "Submitting preparation...",
-  [InstallState.WaitingForPreparation]: "Waiting for preparation confirmation...",
-  [InstallState.Installing]: "Submitting installation...",
-  [InstallState.Prepared]: "Installation Prepared",
-  [InstallState.Installed]: "Budgets Installed",
-};
+import { DAOAction } from "../types";
 
 export function useInstallBudget({
   daoAddress,
@@ -49,7 +26,6 @@ export function useInstallBudget({
     isLoading: isPrepareLoading,
     installAction,
     plugin,
-    prepareInstallation,
     prepareInstallationAsync,
   } = usePrepareInstall({
     daoAddress,
@@ -71,20 +47,14 @@ export function useInstallBudget({
     enabled: !!prepareTxReceipt,
   });
 
-  let state = InstallState.Idle;
-
-  if (isLoading) {
-    if (!prepareTxHash && !installTxHash) state = InstallState.Preparing;
-  }
-
+  // call installProposalAsync when prepareTxReceipt is ready
   useEffect(() => {
-    if (prepareTxReceipt && installProposalAsync) {
-      installProposalAsync();
-    }
+    if (prepareTxReceipt && installProposalAsync) installProposalAsync();
   }, [prepareTxReceipt, installProposalAsync]);
 
+  // set loading to false when installTxReceipt is ready
   useEffect(() => {
-    if (installTxReceipt) {
+    if (installTxReceipt || prepareError || installError) {
       setIsLoading(false);
     }
   }, [installTxReceipt]);
@@ -109,7 +79,6 @@ export function useInstallBudget({
     installTxReceipt,
     error: prepareError || installError,
     isLoading: isLoading || isPrepareLoading || isInstallLoading,
-    state,
   };
 }
 
