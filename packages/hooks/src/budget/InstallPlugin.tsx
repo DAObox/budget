@@ -1,14 +1,19 @@
-import { useInstallBudget, useInstallProposal, usePrepareInstall } from "../hooks/useInstallBudget";
-import { ProcessingMessage } from "./ProcessingMessage";
+import { useInstallBudget, useStore } from "../hooks";
+import { ProcessingMessage } from "../components/ProcessingMessage";
 
 export function InstallPlugin() {
+  const { daoAddress, tokenVotingAddress } = useStore();
   const { installPlugin, prepareTxHash, prepareTxReceipt, installTxReceipt, installTxHash, error, isLoading } =
-    useInstallBudget({
-      daoAddress: "0xce780fea1c950a29769b4f10817a9c51154d12af",
-      budgetRepoAddress: "0x9b72Af17B8aE55AE2F3C06E46A44D9bEaFb10801",
-      pluginSetupProcessorAddress: "0xE8B5d8D66a02CD1b9Bd32a4064D7ABa45F51305e",
-      tokenVotingAddress: "0xC41e25D5e7Cf5457b635D94c2262F914bb9d36E8",
-    });
+    useInstallBudget();
+  console.log({
+    installPlugin,
+    prepareTxHash,
+    prepareTxReceipt,
+    installTxReceipt,
+    installTxHash,
+    error,
+    isLoading,
+  });
 
   let buttonText;
   switch (true) {
@@ -36,9 +41,12 @@ export function InstallPlugin() {
 
   return (
     <div>
-      <h1>Budget</h1>
+      <h2>Install Budget</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-        <button onClick={() => installPlugin?.()} disabled={isLoading || !!installTxReceipt}>
+        <button
+          onClick={() => installPlugin?.()}
+          disabled={isLoading || !!installTxReceipt || !daoAddress || !tokenVotingAddress}
+        >
           {buttonText}
         </button>
         {prepareTxHash && <ProcessingMessage hash={prepareTxHash?.hash} name="Prepare Install" />}

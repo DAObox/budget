@@ -1,67 +1,89 @@
-import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
+import { useContractWrite, useWaitForTransaction } from "wagmi";
 import { budgetABI, tokenVotingABI } from "../generated";
-import { DAOAction, TimeUnit } from "../types";
+import { BytesLike, DAOAction, TimeUnit } from "../types";
 import { VoteValues } from "@aragon/sdk-client";
 import { encodeFunctionData } from "viem";
+import { useStore } from "./useStore";
 
-export function useNewRootBudget({
-  spender,
-  token,
-  amount,
-  recurrency,
-  name,
-  budgetAddress,
-  tokenVotingAddress,
-  voteMetadata = "0x00",
-  enabled = true,
-}: {
-  voteMetadata?: `0x${string}`;
-  spender: `0x${string}`;
-  token: `0x${string}`;
+export interface IEncodeRootBudgetVoteData {
+  spender: BytesLike;
+  token: BytesLike;
   amount: bigint;
   recurrency: TimeUnit;
   name: string;
-  budgetAddress: `0x${string}`;
-  tokenVotingAddress: `0x${string}`;
-  enabled?: boolean;
-}) {
-  const action: DAOAction = {
-    to: budgetAddress,
-    value: 0n,
-    data: encodeFunctionData({
-      abi: budgetABI,
-      functionName: "createAllowance",
-      args: [0n, spender, token, amount, recurrency, name],
-    }),
-  };
+  voteMetadata?: BytesLike;
+}
 
-  const { config } = usePrepareContractWrite({
-    address: tokenVotingAddress,
-    abi: tokenVotingABI,
-    functionName: "createProposal",
-    args: [
+export enum BudgetStatus {
+  WaitingForSigner = "Waiting for Signer...",
+  WaitingForConfirmation = "Waiting for confirmation...",
+  NewBudgetCreated = "New Budget Created",
+  Error = "Error",
+  Idle = "Create New Budget",
+}
+
+type EncodeVoteReturnType =
+  | Readonly<
+      [
+        `0x${string}`,
+        Readonly<{
+          to: `0x${string}`;
+          value: bigint;
+          data: `0x${string}`;
+        }>[],
+        bigint,
+        bigint,
+        bigint,
+        number,
+        boolean,
+      ]
+    >
+  | undefined;
+
+export function useNewRootBudget() {
+  const { tokenVotingAddress, budgetAddress } = useStore();
+
+  function encodeRootBudgetVote({
+    spender,
+    token,
+    amount,
+    recurrency,
+    name,
+    voteMetadata = "0x00",
+  }: IEncodeRootBudgetVoteData): EncodeVoteReturnType {
+    if (!budgetAddress) return undefined;
+    const action: Array<DAOAction> = [
+      {
+        to: budgetAddress,
+        value: 0n,
+        data: encodeFunctionData({
+          abi: budgetABI,
+          functionName: "createAllowance",
+          args: [0n, spender, token, amount, recurrency, name],
+        }),
+      },
+    ];
+    return [
       voteMetadata,
-      [action],
+      action,
       0n, // no failures allowed
       0n, // first start date
       0n, // no end date
       VoteValues.YES, // creator vote yes
       true, // try and execute immediately
-    ],
-    enabled: !!(
-      tokenVotingAddress &&
-      budgetAddress &&
-      spender &&
-      token &&
-      amount &&
-      recurrency &&
-      name &&
-      voteMetadata &&
-      enabled
-    ),
-  });
+    ];
+  }
 
-  const { data: tx, error, isLoading, write: newRootBudget, writeAsync: newRootBudgetAsync } = useContractWrite(config);
+  const {
+    data: tx,
+    error,
+    isLoading,
+    write,
+    writeAsync,
+  } = useContractWrite({ address: tokenVotingAddress, abi: tokenVotingABI, functionName: "createProposal" });
+
+  const newRootBudget = (data: IEncodeRootBudgetVoteData) => write({ args: encodeRootBudgetVote(data) });
+  const newRootBudgetAsync = (data: IEncodeRootBudgetVoteData) => writeAsync({ args: encodeRootBudgetVote(data) });
 
   const {
     data: txReceipt,
@@ -71,12 +93,31 @@ export function useNewRootBudget({
     hash: tx?.hash,
   });
 
+  let status: BudgetStatus;
+  switch (true) {
+    case (isLoading || isTxLoading) && !tx?.hash:
+      status = BudgetStatus.WaitingForSigner;
+      break;
+    case (isLoading || isTxLoading) && !!tx?.hash && !txReceipt:
+      status = BudgetStatus.WaitingForConfirmation;
+      break;
+    case !!txReceipt:
+      status = BudgetStatus.NewBudgetCreated;
+      break;
+    case !!error:
+      status = BudgetStatus.Error;
+      break;
+    default:
+      status = BudgetStatus.Idle;
+  }
+
   return {
+    status,
     txHash: tx?.hash,
     txReceipt,
     error: error || txError,
     isLoading: isLoading || isTxLoading,
-    newRootBudget,
-    newRootBudgetAsync,
+    newRootBudget: !!(tokenVotingAddress && budgetAddress) ? newRootBudget : undefined,
+    newRootBudgetAsync: !!(tokenVotingAddress && budgetAddress) ? newRootBudgetAsync : undefined,
   };
 }

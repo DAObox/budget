@@ -29,6 +29,9 @@ importers:
       '@aragon/sdk-client-common':
         specifier: ^1.10.0
         version: 1.10.0
+      '@hookform/resolvers':
+        specifier: ^3.3.2
+        version: 3.3.2(react-hook-form@7.48.2)
       '@tanstack/react-query':
         specifier: ^5.7.0
         version: 5.7.0(react-dom@18.2.0)(react@18.2.0)
@@ -44,6 +47,9 @@ importers:
       connectkit:
         specifier: ^1.4.0
         version: 1.4.0(@babel/core@7.23.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(viem@0.3.36)(wagmi@1.0.6)
+      graphql-request:
+        specifier: ^6.1.0
+        version: 6.1.0(graphql@16.8.1)
       process:
         specifier: ^0.11.10
         version: 0.11.10
@@ -53,6 +59,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.48.2
+        version: 7.48.2(react@18.2.0)
       util:
         specifier: ^0.12.4
         version: 0.12.4
@@ -61,7 +70,10 @@ importers:
         version: 0.3.36(typescript@5.2.2)(zod@3.22.4)
       wagmi:
         specifier: ^1.0.6
-        version: 1.0.6(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)
+        version: 1.0.6(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)(zod@3.22.4)
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
       '@types/react':
         specifier: ^18.0.9
@@ -991,6 +1003,22 @@ packages:
       '@ethersproject/strings': 5.7.0
     dev: false
 
+  /@graphql-typed-document-node/core@3.2.0(graphql@16.8.1):
+    resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      graphql: 16.8.1
+    dev: false
+
+  /@hookform/resolvers@3.3.2(react-hook-form@7.48.2):
+    resolution: {integrity: sha512-Tw+GGPnBp+5DOsSg4ek3LCPgkBOuOgS5DsDV7qsWNH9LZc433kgsWICjlsh2J9p04H2K66hsXPPb9qn9ILdUtA==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.48.2(react@18.2.0)
+    dev: false
+
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
     engines: {node: '>=6.0.0'}
@@ -1628,14 +1656,14 @@ packages:
       prettier: 2.8.8
       typescript: 5.2.2
       viem: 0.3.36(typescript@5.2.2)(zod@3.22.4)
-      wagmi: 1.0.6(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)
+      wagmi: 1.0.6(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)(zod@3.22.4)
       zod: 3.22.4
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
     dev: false
 
-  /@wagmi/connectors@1.0.5(@wagmi/chains@0.2.25)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36):
+  /@wagmi/connectors@1.0.5(@wagmi/chains@0.2.25)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)(zod@3.22.4):
     resolution: {integrity: sha512-fsnaeRv1/9Ec0n2J2W0JVUV3dvv9FoiCPCiY0I1MVJxadPn9x9h9/x69NyVsx+kUdhohKUNCbPlD3lrGg5c/Fg==}
     peerDependencies:
       '@wagmi/chains': '>=0.2.25'
@@ -1655,7 +1683,7 @@ packages:
       '@walletconnect/ethereum-provider': 2.7.4(@web3modal/standalone@2.4.3)
       '@walletconnect/legacy-provider': 2.0.0
       '@web3modal/standalone': 2.4.3(react@18.2.0)
-      abitype: 0.8.1(typescript@5.2.2)
+      abitype: 0.8.1(typescript@5.2.2)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.2.2
       viem: 0.3.36(typescript@5.2.2)(zod@3.22.4)
@@ -1671,7 +1699,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.0.6(@types/react@18.2.34)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36):
+  /@wagmi/core@1.0.6(@types/react@18.2.34)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)(zod@3.22.4):
     resolution: {integrity: sha512-OYcHXS2s76CgN+kOzA1EgxvmkN+yZxjb+0PeBqdRyClnajPJ69MmVRKkWgZdLDdy2JIthPyT7mIrbW1VW+mw7w==}
     peerDependencies:
       typescript: '>=4.9.4'
@@ -1681,8 +1709,8 @@ packages:
         optional: true
     dependencies:
       '@wagmi/chains': 0.2.25(typescript@5.2.2)
-      '@wagmi/connectors': 1.0.5(@wagmi/chains@0.2.25)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)
-      abitype: 0.8.1(typescript@5.2.2)
+      '@wagmi/connectors': 1.0.5(@wagmi/chains@0.2.25)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)(zod@3.22.4)
+      abitype: 0.8.1(typescript@5.2.2)(zod@3.22.4)
       eventemitter3: 4.0.7
       typescript: 5.2.2
       viem: 0.3.36(typescript@5.2.2)(zod@3.22.4)
@@ -2142,7 +2170,7 @@ packages:
       through: 2.3.8
     dev: false
 
-  /abitype@0.8.1(typescript@5.2.2):
+  /abitype@0.8.1(typescript@5.2.2)(zod@3.22.4):
     resolution: {integrity: sha512-n8Di6AWb3i7HnEkBvecU6pG0a5nj5YwMvdAIwPLsQK95ulRy/XS113s/RXvSfTX1iOQJYFrEO3/q4SMWu7OwTA==}
     peerDependencies:
       typescript: '>=4.9.4'
@@ -2152,6 +2180,7 @@ packages:
         optional: true
     dependencies:
       typescript: 5.2.2
+      zod: 3.22.4
     dev: false
 
   /abitype@0.8.11(typescript@5.2.2)(zod@3.22.4):
@@ -2662,7 +2691,7 @@ packages:
       resize-observer-polyfill: 1.5.1
       styled-components: 5.3.11(@babel/core@7.23.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
       viem: 0.3.36(typescript@5.2.2)(zod@3.22.4)
-      wagmi: 1.0.6(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)
+      wagmi: 1.0.6(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)(zod@3.22.4)
     transitivePeerDependencies:
       - '@babel/core'
       - react-is
@@ -3544,6 +3573,18 @@ packages:
       cross-fetch: 3.1.8
       extract-files: 9.0.0
       form-data: 3.0.1
+      graphql: 16.8.1
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /graphql-request@6.1.0(graphql@16.8.1):
+    resolution: {integrity: sha512-p+XPfS4q7aIpKVcgmnZKhMNqhltk20hfXtkaIkTfjjmiKMJ5xrt5c743cL03y/K7y1rg3WrIC49xGiEQ4mxdNw==}
+    peerDependencies:
+      graphql: 14 - 16
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
+      cross-fetch: 3.1.8
       graphql: 16.8.1
     transitivePeerDependencies:
       - encoding
@@ -4548,6 +4589,15 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-hook-form@7.48.2(react@18.2.0):
+    resolution: {integrity: sha512-H0T2InFQb1hX7qKtDIZmvpU1Xfn/bdahWBN1fH19gSe4bBEqTfmlr7H3XWTaVtiK4/tpPaI1F3355GPMZYge+A==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -5266,7 +5316,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /wagmi@1.0.6(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36):
+  /wagmi@1.0.6(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)(zod@3.22.4):
     resolution: {integrity: sha512-lagpdFyms43+80wwHPElXhW8QXZSH/nKesfcuFdhA3iCQ9cCksj8xrMoEcmuno3zrUaN85X5bn72QgKQNfOYNQ==}
     peerDependencies:
       react: '>=17.0.0'
@@ -5279,8 +5329,8 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1)
-      '@wagmi/core': 1.0.6(@types/react@18.2.34)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)
-      abitype: 0.8.1(typescript@5.2.2)
+      '@wagmi/core': 1.0.6(@types/react@18.2.34)(react@18.2.0)(typescript@5.2.2)(viem@0.3.36)(zod@3.22.4)
+      abitype: 0.8.1(typescript@5.2.2)(zod@3.22.4)
       react: 18.2.0
       typescript: 5.2.2
       use-sync-external-store: 1.2.0(react@18.2.0)

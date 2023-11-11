@@ -14,3 +14,7 @@ export function hexToBytes(inputHexString: string): Uint8Array {
   }
   return Uint8Array.from(bytes);
 }
+
+export function stringifyWithBigInt(obj: any) {
+  return JSON.stringify(obj, (_, v) => (typeof v === "bigint" ? v.toString() : v), 2);
+}

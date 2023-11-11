@@ -1,6 +1,7 @@
 import { useNetwork, useWaitForTransaction } from "wagmi";
+import { BytesLike } from "../types";
 
-export function ProcessingMessage({ hash, name }: { hash?: `0x${string}`; name: string }) {
+export function ProcessingMessage({ hash, name }: { hash?: BytesLike; name: string }) {
   const { chain } = useNetwork();
   const etherscan = chain?.blockExplorers?.etherscan;
 

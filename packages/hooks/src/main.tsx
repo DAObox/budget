@@ -9,17 +9,19 @@ import { App } from "./App";
 import { config } from "./wagmi";
 const queryClient = new QueryClient();
 
-import "./globals.css";
+import { GlobalStateProvider } from "./hooks/useStore";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <WagmiConfig config={config}>
       <ConnectKitProvider debugMode>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <GlobalStateProvider>
+            <App />
+          </GlobalStateProvider>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </ConnectKitProvider>
     </WagmiConfig>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
