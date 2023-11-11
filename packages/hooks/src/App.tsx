@@ -14,11 +14,9 @@ export function App() {
 
   return (
     <>
-      <h1>wagmi + Vite</h1>
-      0x5bb4f8d77a072cdcfdb5e47da248c579e70be597
-      <p>(new test): 0x970Fed12e8816aa4e5D57b9cCf66263DE8732a0d</p>
-      <p>(no budget): 0x6f07aa7af27e0e06a08a1a17e04c4b0eb11300ab</p>
-      <p>(with budget): 0xce780fea1c950a29769b4f10817a9c51154d12af</p>
+      <h1>Budgets Hooks</h1>
+      USDC: 0x7e356025b80B220661c859d134ae12146f73f335
+      <p>(DAO): 0x5bb4f8d77a072cdcfdb5e47da248c579e70be597</p>
       <ConnectKitButton />
       <DaoDetails />
       <hr />

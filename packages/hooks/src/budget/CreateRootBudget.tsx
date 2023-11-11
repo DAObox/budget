@@ -1,4 +1,4 @@
-import { BudgetStatus, useNewRootBudget } from "../hooks/useNewRootBudget";
+import { NewRootBudgetStatus, useNewRootBudget } from "../hooks/useNewRootBudget";
 
 import { ProcessingMessage } from "../components/ProcessingMessage";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,8 @@ export function NewRootBudget() {
 
   const { error, newRootBudget, txHash, status } = useNewRootBudget();
 
-  const isButtonDisabled = status === BudgetStatus.WaitingForSigner || status === BudgetStatus.WaitingForConfirmation;
+  const isButtonDisabled =
+    status === NewRootBudgetStatus.WaitingForSigner || status === NewRootBudgetStatus.WaitingForConfirmation;
 
   const onSubmit = (data: RootBudgetFormType) => {
     console.log(data);

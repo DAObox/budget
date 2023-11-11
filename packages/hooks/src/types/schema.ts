@@ -5,6 +5,7 @@ import { BytesLike, TimeUnit } from ".";
 export const EthAddress = z.string().refine((value) => isAddress(value), {
   message: "Value must be a valid Ethereum address",
 }) as unknown as z.ZodType<BytesLike>;
+
 export const rootBudgetSchema = z.object({
   spender: EthAddress,
   token: EthAddress,

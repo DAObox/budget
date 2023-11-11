@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { request, gql } from "graphql-request";
-import { useStore } from ".";
+import { useGetPlugin, useStore } from ".";
 import { subgraph } from "../lib/constants";
 import { BytesLike } from "../types";
+import { useEffect } from "react";
 
 const getDao = async ({ daoAddress, subgraph }: { daoAddress: BytesLike; subgraph: string }): Promise<DaoData> => {
   const query = gql`
@@ -29,8 +30,11 @@ export interface DaoData {
   };
 }
 
-export const useGetDao = () => {
+export function useLoadDao() {
   const { daoAddress } = useStore();
+  const { setDaoAddress, setBudgetAddress, setTokenVotingAddress } = useStore();
+  const { plugin: Budget } = useGetPlugin("budget");
+  const { plugin: TokenVoting } = useGetPlugin("token-voting");
 
   const { data: dao, ...rest } = useQuery({
     queryKey: ["dao", daoAddress],
@@ -46,5 +50,14 @@ export const useGetDao = () => {
     enabled: !!(daoAddress && subgraph), // Only run this query if we have a daoAddress and subgraph
   });
 
-  return { dao, ...rest };
-};
+  useEffect(() => {
+    if (Budget) {
+      setBudgetAddress(Budget.pluginAddress);
+    }
+    if (TokenVoting) {
+      setTokenVotingAddress(TokenVoting.pluginAddress);
+    }
+  }, [Budget, TokenVoting]);
+
+  return { loadDao: (dao: BytesLike) => setDaoAddress(dao), dao, ...rest };
+}

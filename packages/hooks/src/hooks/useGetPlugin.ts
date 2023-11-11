@@ -45,10 +45,6 @@ export const useGetPlugin = (subdomain: string) => {
     queryKey: ["plugin", daoAddress, subdomain],
     queryFn: () => getPlugins({ daoAddress: daoAddress!, subgraph }),
     select(data) {
-      console.log({
-        data,
-        daoAddress,
-      });
       const pluginWithSubdomain = data.dao.plugins.find(
         (plugin) => plugin.appliedPluginRepo.subdomain === subdomain.toLowerCase(),
       );

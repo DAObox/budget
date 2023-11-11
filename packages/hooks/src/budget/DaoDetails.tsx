@@ -1,15 +1,12 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGetPlugin } from "../hooks/useGetPlugin";
-import { useGetDao } from "../hooks/useGetDao";
-import { useEffect } from "react";
-import { useStore } from "../hooks";
+
+import { useLoadDao } from "../hooks/useLoadDao";
 import { EthAddress } from "../types/schema";
-import { BytesLike } from "../types";
 
 export function DaoDetails() {
-  const { setTokenVotingAddress, setBudgetAddress, setDaoAddress } = useStore();
+  const { loadDao, dao } = useLoadDao();
 
   const schema = z.object({
     daoAddress: EthAddress,
@@ -24,25 +21,9 @@ export function DaoDetails() {
     resolver: zodResolver(schema),
   });
 
-  const { dao } = useGetDao();
-  const { plugin: Budget } = useGetPlugin("budget");
-  const { plugin: TokenVoting } = useGetPlugin("token-voting");
-
   const onSubmit = (data: FormValues) => {
-    setDaoAddress(data.daoAddress as BytesLike);
+    loadDao(data.daoAddress);
   };
-
-  useEffect(() => {
-    if (Budget?.pluginAddress) {
-      setBudgetAddress(Budget.pluginAddress);
-    }
-  }, [Budget]);
-
-  useEffect(() => {
-    if (TokenVoting?.pluginAddress) {
-      setTokenVotingAddress(TokenVoting.pluginAddress);
-    }
-  }, [TokenVoting]);
 
   return (
     <div>

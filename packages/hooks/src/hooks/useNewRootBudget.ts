@@ -14,7 +14,7 @@ export interface IEncodeRootBudgetVoteData {
   voteMetadata?: BytesLike;
 }
 
-export enum BudgetStatus {
+export enum NewRootBudgetStatus {
   WaitingForSigner = "Waiting for Signer...",
   WaitingForConfirmation = "Waiting for confirmation...",
   NewBudgetCreated = "New Budget Created",
@@ -93,22 +93,22 @@ export function useNewRootBudget() {
     hash: tx?.hash,
   });
 
-  let status: BudgetStatus;
+  let status: NewRootBudgetStatus;
   switch (true) {
     case (isLoading || isTxLoading) && !tx?.hash:
-      status = BudgetStatus.WaitingForSigner;
+      status = NewRootBudgetStatus.WaitingForSigner;
       break;
     case (isLoading || isTxLoading) && !!tx?.hash && !txReceipt:
-      status = BudgetStatus.WaitingForConfirmation;
+      status = NewRootBudgetStatus.WaitingForConfirmation;
       break;
     case !!txReceipt:
-      status = BudgetStatus.NewBudgetCreated;
+      status = NewRootBudgetStatus.NewBudgetCreated;
       break;
     case !!error:
-      status = BudgetStatus.Error;
+      status = NewRootBudgetStatus.Error;
       break;
     default:
-      status = BudgetStatus.Idle;
+      status = NewRootBudgetStatus.Idle;
   }
 
   return {

@@ -3,8 +3,9 @@ import { budgetABI } from "../generated";
 import { useStore } from ".";
 import { BudgetInfo, BytesLike } from "../types";
 
-export function useBudgetInfo() {
+export function useBudgetInfo({ budgetId }: { budgetId?: string | bigint | number | undefined } = {}) {
   const { budgetAddress, activeBudget } = useStore();
+  const budget = budgetId ?? activeBudget;
   const {
     data: budgetInfo,
     error,
@@ -14,8 +15,8 @@ export function useBudgetInfo() {
     address: budgetAddress!,
     abi: budgetABI,
     functionName: "allowances",
-    args: [activeBudget ? BigInt(activeBudget!) : 0n],
-    enabled: !!(activeBudget && budgetAddress),
+    args: [budget ? BigInt(budget!) : 0n],
+    enabled: !!(budget && budgetAddress),
   });
   return { budgetInfo: budgetInfo ? parseBudgetInfo(budgetInfo) : undefined, error, isLoading, refetch };
 }
