@@ -1,24 +1,24 @@
-[submodule "lib/forge-std"]
+[submodule "packages/contracts/lib/forge-std"]
 	branch = "v1"
-	path = "lib/forge-std"
+	path = "packages/contracts/lib/forge-std"
 	url = "https://github.com/foundry-rs/forge-std"
-[submodule "lib/prb-test"]
+[submodule "packages/contracts/lib/prb-test"]
 	branch = "release-v0"
-	path = "lib/prb-test"
+	path = "packages/contracts/lib/prb-test"
 	url = "https://github.com/PaulRBerg/prb-test"
-[submodule "lib/openzeppelin-contracts"]
-	path = lib/openzeppelin-contracts
+[submodule "packages/contracts/lib/openzeppelin-contracts"]
+	path = packages/contracts/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
-[submodule "lib/osx"]
-	path = lib/osx
+[submodule "packages/contracts/lib/osx"]
+	path = packages/contracts/lib/osx
 	url = https://github.com/aragon/osx
-[submodule "lib/openzeppelin-contracts-upgradeable"]
+[submodule "packages/contracts/lib/openzeppelin-contracts-upgradeable"]
 	branch = "release-v4.9"
-	path = lib/openzeppelin-contracts-upgradeable
+	path = packages/contracts/lib/openzeppelin-contracts-upgradeable
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable
-[submodule "lib/ens-contracts"]
-	path = lib/ens-contracts
+[submodule "packages/contracts/lib/ens-contracts"]
+	path = packages/contracts/lib/ens-contracts
 	url = https://github.com/ensdomains/ens-contracts
-[submodule "lib/BokkyPooBahsDateTimeLibrary"]
-	path = lib/BokkyPooBahsDateTimeLibrary
+[submodule "packages/contracts/lib/BokkyPooBahsDateTimeLibrary"]
+	path = packages/contracts/lib/BokkyPooBahsDateTimeLibrary
 	url = https://github.com/bokkypoobah/BokkyPooBahsDateTimeLibrary

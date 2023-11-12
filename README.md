@@ -1,19 +1,35 @@
+<<<<<<< HEAD
 <h1 align="center">DAOBox - Budget</h1>
+=======
+# budget2
 
+>>>>>>> Incoming
+
+<<<<<<< HEAD
 <p align="center">
   <img src="./assets/banner.png" alt="daobox-banner" />
   <br>
   <i>DAOBox - Budget is an Aragon OSx Plugin that allows the execution of payments bypassing the need for regular voting.</i>
   <br>
 </p>
+=======
+Note: Please ensure you have installed <code><a href="https://nodejs.org/en/download/">nodejs</a></code>
 
+>>>>>>> Incoming
+
+<<<<<<< HEAD
 <p align="center">
   <a href="https://github.com/DAObox/budget/actions"><img src="https://github.com/DAObox/budget/actions/workflows/ci.yml/badge.svg" alt="Github Actions"></a>
   <a href="https://getfoundry.sh/"><img src="https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg" alt="Foundry"></a>
   <a href="https://opensource.org/license/agpl-v3/"><img src="https://img.shields.io/badge/License-AGPL-blue.svg" alt="License: AGPL-3-0"></a>
   <a href="https://use-aragon.daobox.app"><img src="https://img.shields.io/badge/Docs-DAOBox-blue.svg" alt="Docs"></a>
   <a href="https://discord.gg/d5nCgVt4kE"><img alt="Discord" src="https://img.shields.io/discord/1019114018545352734"></a>
+=======
+To preview and run the project on your device:
 
+>>>>>>> Incoming
+
+<<<<<<< HEAD
 </p>
 
 <hr>
@@ -230,3 +246,38 @@ constraints of this system, this is a non-issue:
 ## License
 
 This project is licensed under AGPL-3.0-or-later
+
+---
+
+```
+[submodule "lib/forge-std"]
+	branch = "v1"
+	path = "lib/forge-std"
+	url = "https://github.com/foundry-rs/forge-std"
+[submodule "lib/prb-test"]
+	branch = "release-v0"
+	path = "lib/prb-test"
+	url = "https://github.com/PaulRBerg/prb-test"
+[submodule "lib/openzeppelin-contracts"]
+	path = lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "lib/osx"]
+	path = lib/osx
+	url = https://github.com/aragon/osx
+[submodule "lib/openzeppelin-contracts-upgradeable"]
+	branch = "release-v4.9"
+	path = lib/openzeppelin-contracts-upgradeable
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable
+[submodule "lib/ens-contracts"]
+	path = lib/ens-contracts
+	url = https://github.com/ensdomains/ens-contracts
+[submodule "lib/BokkyPooBahsDateTimeLibrary"]
+	path = lib/BokkyPooBahsDateTimeLibrary
+	url = https://github.com/bokkypoobah/BokkyPooBahsDateTimeLibrary
+```
+=======
+1. Open project folder in <a href="https://code.visualstudio.com/download">Visual Studio Code</a>
+2. In the terminal, run `npm install`
+3. Run `npm start` to view project in browser
+
+>>>>>>> Incoming
