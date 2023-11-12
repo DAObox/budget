@@ -3,7 +3,7 @@ import { title, subtitle } from "@/components/primitives";
 
 export function Hero() {
   return (
-    <div className="inline-block max-w-lg text-center justify-center">
+    <div className="justify-center inline-block max-w-lg text-center">
       <h1 className={title()}>DAOBox&nbsp;</h1>
       <h1 className={title({ color: "violet" })}>Budgets&nbsp;</h1>
       <br />

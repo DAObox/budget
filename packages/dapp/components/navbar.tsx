@@ -4,31 +4,29 @@ import { Navbar as NextUINavbar, NavbarContent } from "@nextui-org/navbar";
 import { Badge, User } from "@nextui-org/react";
 
 import { Button } from "@nextui-org/button";
-import NextLink from "next/link";
 
 import { NotificationIcon } from "@/components/icons";
-import { useDynamicContext } from "./dynamic";
+import { DynamicUserProfile, useDynamicContext } from "./dynamic";
 
 export const Navbar = () => {
-  const { setShowAuthFlow } = useDynamicContext();
+  const { setShowDynamicUserProfile } = useDynamicContext();
 
   return (
-    <NextUINavbar maxWidth="xl" position="sticky" className="p-3">
+    <NextUINavbar maxWidth="sm" position="sticky" className="p-2">
       <NavbarContent justify="start">
-        <NextLink className="flex justify-start items-center gap-1" href="/">
-          <User
-            as="button"
-            onClick={() => setShowAuthFlow(true)}
-            name="Aaron Abu Usama"
-            description="abuusama.eth"
-            className="transition-transform"
-            avatarProps={{
-              src: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/9.png",
-              isBordered: true,
-              radius: "full",
-            }}
-          />
-        </NextLink>
+        <User
+          as="button"
+          onClick={() => setShowDynamicUserProfile(true)}
+          name="Aaron Abu Usama"
+          description="abuusama.eth"
+          className="transition-transform"
+          avatarProps={{
+            src: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/9.png",
+            isBordered: true,
+            radius: "full",
+          }}
+        />
+        <DynamicUserProfile />
       </NavbarContent>
 
       <NavbarContent justify="end">

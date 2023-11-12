@@ -1,18 +1,13 @@
-"use client";
-
 import { Button } from "@nextui-org/button";
 import { ClockIcon, HomeIcon, QRCodeIcon } from "./icons";
-import { useDynamicContext } from "./dynamic";
 
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/iy0yPzxXKCr
  */
 export function BottomNav() {
-  const { setShowAuthFlow } = useDynamicContext();
-
   return (
-    <section className="fixed inset-x-0 bottom-0 h-16 bg-white dark:bg-zinc-950 border-t-2 border-zinc-200 dark:border-zinc-800 shadow-lg flex items-center justify-around">
+    <section className="fixed inset-x-0 bottom-0 flex items-center justify-around h-16 bg-white border-t-2 shadow-lg dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
       <Button isIconOnly variant="light" aria-label="Home">
         <HomeIcon />
       </Button>
@@ -31,7 +26,7 @@ export function BottomNav() {
       </Button>
       <Button isIconOnly variant="light" aria-label="Wallet">
         <svg
-          className=" h-6 w-6 text-zinc-500 dark:text-zinc-400"
+          className="w-6 h-6 text-zinc-500 dark:text-zinc-400"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -47,14 +42,9 @@ export function BottomNav() {
           <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
         </svg>
       </Button>
-      <Button
-        isIconOnly
-        variant="light"
-        aria-label="User"
-        onClick={() => setShowAuthFlow(true)}
-      >
+      <Button isIconOnly variant="light" aria-label="User">
         <svg
-          className=" h-6 w-6 text-zinc-500 dark:text-zinc-400"
+          className="w-6 h-6 text-zinc-500 dark:text-zinc-400"
           fill="none"
           height="24"
           stroke="currentColor"

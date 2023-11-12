@@ -1,9 +1,8 @@
 import Image from "next/image";
 import React, { ReactNode, useState } from "react";
 
-import Tokens from "./reserveTokens.json";
+import tokens from "../config/tokens";
 import clsx from "clsx";
-const tokens = Tokens.tokens;
 
 export const getIconBackgroundColor = (symbol?: string): string => {
   const symbolLowerCase = symbol?.toLowerCase() as string;
@@ -80,7 +79,7 @@ export const TokenIcon: React.FC<Props> = ({
           width={dimensions - offset}
         />
       ) : (
-        <div className="text-white text-xs font-bold uppercase">
+        <div className="text-xs font-bold text-white uppercase">
           {symbol[0]}
         </div>
       )}
@@ -99,14 +98,10 @@ export const Icon: React.FC<IconProps> = ({ symbol, children, className }) => {
   return (
     <div
       className={clsx(
-        `flex items-center w-20 h-20 justify-center flex-shrink-0 transition-colors duration-200 ease-linear rounded-3xl`,
+        `flex items-center w-14 h-14 justify-center flex-shrink-0 transition-colors duration-200 ease-linear rounded-2xl`,
         backgroundColorClass,
         className,
       )}
-      // style={{
-      //   height: "68px",
-      //   width: "68px",
-      // }}
     >
       {children}
     </div>
