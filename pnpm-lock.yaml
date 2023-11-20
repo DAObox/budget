@@ -47,6 +47,9 @@ importers:
       connectkit:
         specifier: ^1.4.0
         version: 1.4.0(@babel/core@7.23.2)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(viem@0.3.36)(wagmi@1.0.6)
+      ethers:
+        specifier: '5'
+        version: 5.7.2
       graphql-request:
         specifier: ^6.1.0
         version: 6.1.0(graphql@16.8.1)
