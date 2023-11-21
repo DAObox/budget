@@ -4,6 +4,7 @@ import { BytesLike, DAOAction, TimeUnit } from "../types";
 import { VoteValues } from "@aragon/sdk-client";
 import { encodeFunctionData } from "viem";
 import { useStore } from "./useStore";
+import { useIsTokenVotingMember } from "./useIsMember";
 
 export interface IEncodeRootBudgetVoteData {
   spender: BytesLike;
@@ -20,6 +21,7 @@ export enum NewRootBudgetStatus {
   NewBudgetCreated = "New Budget Created",
   Error = "Error",
   Idle = "Create New Budget",
+  NotMember = "Not DAO Member",
 }
 
 type EncodeVoteReturnType =
@@ -42,6 +44,7 @@ type EncodeVoteReturnType =
 
 export function useNewRootBudget() {
   const { tokenVotingAddress, budgetAddress } = useStore();
+  const { isMember } = useIsTokenVotingMember();
 
   function encodeRootBudgetVote({
     spender,
@@ -95,6 +98,9 @@ export function useNewRootBudget() {
 
   let status: NewRootBudgetStatus;
   switch (true) {
+    case !isMember:
+      status = NewRootBudgetStatus.NotMember;
+      break;
     case (isLoading || isTxLoading) && !tx?.hash:
       status = NewRootBudgetStatus.WaitingForSigner;
       break;
@@ -117,7 +123,7 @@ export function useNewRootBudget() {
     txReceipt,
     error: error || txError,
     isLoading: isLoading || isTxLoading,
-    newRootBudget: !!(tokenVotingAddress && budgetAddress) ? newRootBudget : undefined,
-    newRootBudgetAsync: !!(tokenVotingAddress && budgetAddress) ? newRootBudgetAsync : undefined,
+    newRootBudget: !!(tokenVotingAddress && budgetAddress && isMember) ? newRootBudget : undefined,
+    newRootBudgetAsync: !!(tokenVotingAddress && budgetAddress && isMember) ? newRootBudgetAsync : undefined,
   };
 }

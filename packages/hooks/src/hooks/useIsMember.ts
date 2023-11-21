@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { tokenVotingClient } from "../service/aragon";
 import { TokenVotingMember } from "@aragon/sdk-client";
 
-export function useIsMember() {
+export function useIsTokenVotingMember() {
   const { tokenVotingAddress } = useStore();
   const { address } = useAccount();
   const { data: isMember, ...rest } = useQuery({

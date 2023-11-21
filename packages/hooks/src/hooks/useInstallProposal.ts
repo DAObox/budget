@@ -6,6 +6,7 @@ import { Permissions, VoteValues } from "@aragon/sdk-client";
 import { BytesLike, DAOAction } from "../types";
 import { pluginSetupProcessorAddress } from "../lib/constants";
 import { useStore } from ".";
+import { useIsTokenVotingMember } from "./useIsMember";
 
 export function useInstallProposal({
   voteMetadata = "0x00",
@@ -17,6 +18,7 @@ export function useInstallProposal({
   enabled?: boolean;
 }) {
   const { daoAddress, tokenVotingAddress } = useStore();
+  const { isMember } = useIsTokenVotingMember();
 
   const daoInterface = DAO__factory.createInterface();
 
@@ -53,7 +55,14 @@ export function useInstallProposal({
       VoteValues.YES,
       true, // try and execute immediately
     ],
-    enabled: !!(daoAddress && installAction && tokenVotingAddress && pluginSetupProcessorAddress && enabled),
+    enabled: !!(
+      daoAddress &&
+      installAction &&
+      tokenVotingAddress &&
+      pluginSetupProcessorAddress &&
+      enabled &&
+      isMember
+    ),
   });
 
   console.log({
