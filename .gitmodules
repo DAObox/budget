@@ -25,3 +25,5 @@
 [submodule "packages/contracts/lib/prb-math"]
 	path = packages/contracts/lib/prb-math
 	url = https://github.com/PaulRBerg/prb-math
+[submodule "lib/osx"]
+	branch = develop
