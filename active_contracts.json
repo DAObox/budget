@@ -2,8 +2,10 @@
     "ens-domain": "budget.plugin.dao.eth",
     "goerli": {
         "BudgetSetup": "0x636Dc42B54029702ee5bDd39059bF8f75696B1C9",
-        "BudgetRepo": "0x9b72Af17B8aE55AE2F3C06E46A44D9bEaFb10801",
-        "dao": "0xce780fea1c950a29769b4f10817a9c51154d12af",
-        "budget": "0xfea7C89Ae8168f0f0FB9bA053b79C02819eC8C91"
+        "BudgetRepo": "0x9b72Af17B8aE55AE2F3C06E46A44D9bEaFb10801"
+    },
+    "baseMainnet": {
+        "BudgetSetup": "0x073B3CFb5b0d8Ee0985B69325645a1D7D0Bf3C3A",
+        "BudgetRepo": "0xFdC77B3fcF78e0Bc24526250288A530Fca9B285C"
     }
 }
