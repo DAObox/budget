@@ -2,9 +2,28 @@
   "[solidity]": {
     "editor.defaultFormatter": "NomicFoundation.hardhat-solidity"
   },
-  "[toml]": {
-    "editor.defaultFormatter": "tamasfe.even-better-toml"
-  },
   "npm.exclude": "**/lib/**",
-  "solidity.formatter": "forge"
+  "solidity.formatter": "forge",
+  "conventionalCommits.scopes": [
+    "hooks"
+  ],
+  "detectedConfig": {
+    "typescript": false,
+    "naming": "Pascal Case",
+    "unit": "rem",
+    "framework": "nextjs",
+    "styling": "Tailwind"
+  },
+  "locofyConfig": {
+    "project_name": "budget2",
+    "id": "6550a1218cd0bab876c5d4ce",
+    "framework": "react",
+    "typescript": true,
+    "path": "public/",
+    "componentsPath": "/Users/abuusama/repos/daobox/budget/packages/dapp/components",
+    "screensPath": "/Users/abuusama/repos/daobox/budget/frontend-v2/pages",
+    "styling": "Tailwind",
+    "unit": "rem",
+    "naming": "Pascal Case"
+  }
 }
