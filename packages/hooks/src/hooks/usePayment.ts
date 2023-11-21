@@ -67,7 +67,7 @@ export function usePayment() {
   const executePayment = ({ budgetId, to, amount, description }: IUsePayment) =>
     write({ args: [BigInt(budgetId), to, BigInt(amount), description] });
   const executePaymentAsync = ({ budgetId, to, amount, description }: IUsePayment) =>
-    write({ args: [BigInt(budgetId), to, BigInt(amount), description] });
+    writeAsync({ args: [BigInt(budgetId), to, BigInt(amount), description] });
 
   return {
     status,
