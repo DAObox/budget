@@ -27,11 +27,38 @@
 
 <br />
 
-## Getting Started
+## Overview
+
+Budget is an Aragon OSx Plugin that allows the execution of payments bypassing the need for regular voting. Authorized
+entities can directly perform payments using the DAO's funds if they are within the spending allowance of a specific
+budget. This primitive empowers agents in the _Orginasation_ with the _Autonomy_ to make spending decitions, while at the same
+time ensuring accountability, transparency, and strong security
+
+## Project
+
+The root folder of the repo includes three subfolders:
+
+```markdown
+.
+├── packages/contracts
+│ ├── src
+│ ├── ...
+│ └── package.json
+│
+├── packages/hooks
+│ ├── src
+│ ├── ...
+│ └── package.json
+│
+├── ...
+└── package.json
+```
+
+## Contracts
 
 ```sh
-$ git clone git@github.com:DAObox/budget.git
-$ cd budget
+$ cd packages/budget
+$ forge install
 $ pnpm install # install Solhint, Prettier, and other Node.js deps
 $ pnpm test
 ```
@@ -41,7 +68,7 @@ If this is your first time with Foundry, check out the
 
 <br />
 
-## Overview
+## Contracts Overview
 
 Budget is an Aragon OSx Plugin that allows the execution of payments bypassing the need for regular voting. Authorized
 entities can directly perform payments using the DAO's funds if they are within the spending allowance of a specific

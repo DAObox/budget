@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useInstallProposal, usePrepareInstall } from ".";
+import { useIsTokenVotingMember } from "./useIsMember";
 
 export enum InstallBudgetStatus {
   WaitingForSigner = "Waiting for Signer...",
@@ -8,10 +9,12 @@ export enum InstallBudgetStatus {
   BudgetInstalled = "Budget Installed",
   Error = "Error",
   Idle = "Install Budget",
+  NotMember = "Not DAO Member",
 }
 
 export function useInstallBudget() {
   const [isHookLoading, setIsHookLoading] = useState(false);
+  const { isMember } = useIsTokenVotingMember();
   const {
     prepareTxHash,
     txReceipt: prepareTxReceipt,
@@ -61,6 +64,9 @@ export function useInstallBudget() {
 
   let status: InstallBudgetStatus;
   switch (true) {
+    case !isMember:
+      status = InstallBudgetStatus.NotMember;
+      break;
     case isLoading && !prepareTxHash && !installTxHash:
       status = InstallBudgetStatus.WaitingForSigner;
       break;
